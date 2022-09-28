@@ -1,0 +1,8 @@
+.cache
+dist
+build
+node_modules
+web-ext-artifacts
+yarn-error.log
+
+.DS_Store
