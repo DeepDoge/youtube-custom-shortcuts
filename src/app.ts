@@ -2,7 +2,7 @@ import { Component, defineComponent } from "master-ts/library/component"
 import { html } from "master-ts/library/template"
 import { css } from "master-ts/library/template/css"
 import { $ } from "master-ts/library/signal/$"
-import { removeShortcut, setShortcut, shortcuts } from "./shortcuts"
+import { removeShortcut, restoreDefaults, setShortcut, shortcuts } from "./shortcuts"
 import appCss from "@/styles/app.css"
 import { SvgIcon } from "./svgs/icon"
 
@@ -130,17 +130,20 @@ if (document.body.hasAttribute("-extension-popup")) {
 							</div>
 						</div>`
 					)}
-				<button
-					class="btn"
-					on:click=${() =>
-						setShortcut(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(36), {
-							clickQuerySelector: "body",
-							keys: "None",
-							label: "New Shortcut",
-							sortIndex: Date.now(),
-						})}>
-					Add Shortcut
-				</button>
+				<div class="actions">
+					<button
+						class="btn"
+						on:click=${() =>
+							setShortcut(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(36), {
+								clickQuerySelector: "body",
+								keys: "None",
+								label: "New Shortcut",
+								sortIndex: Date.now(),
+							})}>
+						Add Shortcut
+					</button>
+					<button class="btn" on:click=${() => restoreDefaults()}>Restore Defaults</button>
+				</div>
 			</div>
 		</div>`
 
@@ -177,7 +180,7 @@ if (document.body.hasAttribute("-extension-popup")) {
 			gap: 0.1rem;
 		}
 
-		.shortcut .actions {
+		.actions {
 			display: grid;
 			gap: 0.1rem;
 			grid-template-columns: 1fr auto;

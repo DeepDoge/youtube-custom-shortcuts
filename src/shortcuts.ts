@@ -9,6 +9,9 @@ export async function setShortcut(...params: Parameters<BackgroundMethods["setSh
 export async function removeShortcut(...params: Parameters<BackgroundMethods["removeShortcut"]>) {
 	await callBackgroundMethod("removeShortcut", ...params)
 }
+export async function restoreDefaults() {
+	await callBackgroundMethod("restoreDefaults")
+}
 
 function callBackgroundMethod<K extends keyof BackgroundMethods>(method: K, ...data: Parameters<BackgroundMethods[K]>) {
 	return new Promise<Awaited<ReturnType<BackgroundMethods[K]>>>((resolve, reject) => {

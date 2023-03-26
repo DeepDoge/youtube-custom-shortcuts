@@ -55,9 +55,12 @@ export type BackgroundMethod<Params extends any[], Returns> = (...params: Params
 
 const backgroundMethods = {
 	async getShortcuts() {
-		if (!(await shortcutsStorage.count()))
-			await Promise.all(Object.entries(DEFAULT_SHORTCUTS).map(([id, shortcut]) => shortcutsStorage.set(id, shortcut)))
+		if (!(await shortcutsStorage.count())) await backgroundMethods.restoreDefaults()
 		return (await shortcutsStorage.getAll()) as Record<string, Shortcut>
+	},
+	async restoreDefaults() {
+		await Promise.all(Object.entries(DEFAULT_SHORTCUTS).map(([id, shortcut]) => shortcutsStorage.set(id, shortcut)))
+		chrome.runtime.sendMessage("update-shortcuts:")
 	},
 	async setShortcut(id: string, shortcut: Shortcut) {
 		await shortcutsStorage.set(id, shortcut)
