@@ -1,50 +1,19 @@
 {
-  "name": "youtube-like-dislike-shortcuts",
-  "version": "1.5.4",
-  "license": "GPL-3.0",
-  "scripts": {
-    "build:assets": "cpx \"src/**/*.{json,png,svg}\" dist/",
-    "watch:assets": "cpx --watch -v \"src/**/*.{json,png,svg}\" dist/",
-    "build:parcel": "cross-env NODE_ENV=production parcel build --no-source-maps --no-minify \"src/**/*.{js,jsx,ts,tsx}\" \"src/**/*.html\" \"src/**/*.md\"",
-    "watch:parcel": "parcel watch --no-hmr --no-source-maps \"src/**/*.{js,jsx,ts,tsx}\" \"src/**/*.html\" \"src/**/*.md\"",
-    "build:webext": "web-ext build --source-dir ./dist --overwrite-dest",
-    "clear:dist": "rm -r ./dist ; mkdir ./dist",
-    "build:base": "npm-run-all -l -p build:parcel build:assets",
-    "pick:manifest:v2": "cp -b ./manifest.v2.json ./dist/manifest.json",
-    "pick:manifest:v3": "cp -b ./manifest.v3.json ./dist/manifest.json",
-    "build:v2": "npm run clear:dist ; npm run build:base && npm run pick:manifest:v2",
-    "build:v3": "npm run clear:dist ; npm run build:base && npm run pick:manifest:v3",
-    "build": "rm -r ./build ; mkdir ./build && npm run build:v2 && zip -r ./build/manifest-v2.zip ./dist && npm run build:v3 && zip -r ./build/manifest-v3.zip ./dist",
-    "watch:v2": "npm run clear:dist ; npm run pick:manifest:v2 && npm-run-all -l -p watch:parcel watch:assets",
-    "watch:v3": "npm run clear:dist ; npm run pick:manifest:v3 && npm-run-all -l -p watch:parcel watch:assets",
-    "watch": "npm run watch:v3",
-    "start:chrome": "web-ext run -t chromium --source-dir ./dist",
-    "start:firefox": "web-ext run --source-dir ./dist",
-    "test": "jest"
-  },
-  "browserslist": [
-    ">1%",
-    "not ie > 0"
-  ],
-  "devDependencies": {
-    "@babel/preset-typescript": "^7.10.4",
-    "@types/chrome": "0.0.124",
-    "@types/classnames": "^2.2.10",
-    "@types/jest": "^26.0.14",
-    "@types/lodash": "^4.14.162",
-    "braces": ">=2.3.1",
-    "classnames": "^2.2.6",
-    "cpx": "^1.5.0",
-    "cross-env": "^7.0.2",
-    "jest": "^26.5.3",
-    "lodash": "^4.17.21",
-    "marked": "^2.0.0",
-    "node-forge": "^0.10.0",
-    "node-sass": "^4.14.1",
-    "npm-run-all": "^4.1.5",
-    "parcel-bundler": "^1.12.4",
-    "preact": "^10.5.4",
-    "typescript": "^4.0.3",
-    "web-ext": "^5.2.0"
-  }
+	"name": "master-ts-vite-demo",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite --port 3000",
+		"compile-background": "tsc ./scripts/background.ts --outFile ./dist/background.js --module amd",
+		"fix-background": "tsx ./fix-background.ts",
+		"build": "vite build ; npm run compile-background ; npm run fix-background",
+		"preview": "vite preview --port 3000"
+	},
+	"devDependencies": {
+		"@types/chrome": "^0.0.225",
+		"master-ts": "github:DeepDoge/master-ts",
+		"tsx": "^3.12.6",
+		"typescript": "^4.6.4",
+		"vite": "^3.2.3"
+	}
 }
