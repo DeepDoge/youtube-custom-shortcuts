@@ -38,7 +38,11 @@ if (document.body.hasAttribute("-extension-popup")) {
 	function App() {
 		const component = new AppComponent()
 
-		const shortcutsEntries = $.derive(() => Object.entries(shortcuts.ref).sort((a, b) => a[1].sortIndex - b[1].sortIndex))
+		const shortcutsArr = $.derive(() =>
+			Object.entries(shortcuts.ref)
+				.map(([id, shortcut]) => ({ id, shortcut }))
+				.sort((a, b) => a.shortcut.sortIndex - b.shortcut.sortIndex)
+		)
 		const editingKeysOf = $.writable<string | null>(null)
 
 		component.$subscribe(keysPressed, async (keys) => {
@@ -99,35 +103,33 @@ if (document.body.hasAttribute("-extension-popup")) {
 				<h1>YouTube Custom Shortcuts</h1>
 			</header>
 			<div class="shortcuts">
-				${$.each(shortcutsEntries)
-					.key(([id]) => id)
+				${$.each(shortcutsArr)
+					.key((item) => item.id)
 					.$(
-						([id, shortcut]) => html`<div class="shortcut" class:active=${() => editingKeysOf.ref === id}>
+						(item) => html`<div class="shortcut" class:active=${() => editingKeysOf.ref === item.ref.id}>
 							<div class="edit-label">
-								${$.switch(editingLabelOf)
-									.case(
-										id,
-										() => html` <form on:submit=${(event: SubmitEvent, _ = event.preventDefault()) => saveLabel()}>
-											<input type="text" bind:value=${currentLabel} />
-											<button class="btn">Save Label</button>
-										</form>`
-									)
-									.$(() => html`<label>${shortcut.label} <a on:click=${() => editLabelOf(id)}>Edit</a></label>`)}
+								${() =>
+									editingLabelOf.ref === item.ref.id
+										? html` <form on:submit=${(event: SubmitEvent, _ = event.preventDefault()) => saveLabel()}>
+												<input type="text" bind:value=${currentLabel} />
+												<button class="btn">Save Label</button>
+										  </form>`
+										: html`<label>
+												${() => item.ref.shortcut.label} <a on:click=${() => editLabelOf(item.ref.id)}>Edit</a>
+										  </label>`}
 							</div>
 							<div class="actions">
-								<button class="btn edit" on:click=${() => editKeysOf(id)}>${shortcut.keys}</button>
-								<button class="btn remove" on:click=${() => removeShortcut(id)}>Remove</button>
+								<button class="btn edit" on:click=${() => editKeysOf(item.ref.id)}>${() => item.ref.shortcut.keys}</button>
+								<button class="btn remove" on:click=${() => removeShortcut(item.ref.id)}>Remove</button>
 							</div>
 							<div class="edit-selector">
-								${$.switch(editingSelectorOf)
-									.case(
-										id,
-										() => html` <form on:submit=${(event: SubmitEvent, _ = event.preventDefault()) => saveSelector()}>
-											<textarea bind:value=${currentSelector}></textarea>
-											<button class="btn">Save Selector</button>
-										</form>`
-									)
-									.$(() => html`<a on:click=${() => editSelectorOf(id)}>Edit Selector</a></label>`)}
+								${() =>
+									editingSelectorOf.ref === item.ref.id
+										? html` <form on:submit=${(event: SubmitEvent, _ = event.preventDefault()) => saveSelector()}>
+												<textarea bind:value=${currentSelector}></textarea>
+												<button class="btn">Save Selector</button>
+										  </form>`
+										: html`<a on:click=${() => editSelectorOf(item.ref.id)}>Edit Selector</a>`}
 							</div>
 						</div>`
 					)}
