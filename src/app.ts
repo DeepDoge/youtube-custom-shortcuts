@@ -269,7 +269,7 @@ if (document.body.hasAttribute("-extension-popup")) {
 		.${id} .shortcut {
 			animation-name: ${id}-show;
 			animation-duration: 2s;
-			animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+			animation-timing-function: ease-out;
 			animation-direction: alternate;
 			animation-fill-mode: forwards;
 		}
@@ -279,7 +279,8 @@ if (document.body.hasAttribute("-extension-popup")) {
 				filter: opacity(0);
 				transform: scale(0.25);
 			}
-			50% {
+			10%,
+			75% {
 				filter: opacity(1);
 				transform: scale(1);
 			}
