@@ -20,7 +20,7 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 	},
 	dislike: {
 		label: "Dislike",
-		keys: "Alt+Backslash",
+		keys: "Alt+Backspace",
 		clickQuerySelector: `
       ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button a:not([aria-pressed="true"]), /* Shorts */
       ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button button:not([aria-pressed="true"]), /* Shorts New Layout */
@@ -53,6 +53,11 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 
 export type BackgroundMethod<Params extends any[], Returns> = (...params: Params) => Promise<Returns>
 
+async function sendMessage(message: string) {
+	await chrome.runtime.sendMessage(message)
+	await chrome.tabs.query({ url: "https://www.youtube.com/*" }, (tabs) => tabs.forEach((tab) => chrome.tabs.sendMessage(tab.id!, message)))
+}
+
 const backgroundMethods = {
 	async getShortcuts() {
 		if (!(await shortcutsStorage.count())) await backgroundMethods.restoreDefaults()
@@ -60,15 +65,15 @@ const backgroundMethods = {
 	},
 	async restoreDefaults() {
 		await Promise.all(Object.entries(DEFAULT_SHORTCUTS).map(([id, shortcut]) => shortcutsStorage.set(id, shortcut)))
-		chrome.runtime.sendMessage("update-shortcuts:")
+		sendMessage("update-shortcuts:")
 	},
 	async setShortcut(id: string, shortcut: Shortcut) {
 		await shortcutsStorage.set(id, shortcut)
-		chrome.runtime.sendMessage("update-shortcuts:")
+		sendMessage("update-shortcuts:")
 	},
 	async removeShortcut(id: string) {
 		await shortcutsStorage.remove(id)
-		chrome.runtime.sendMessage("update-shortcuts:")
+		sendMessage("update-shortcuts:")
 	},
 } satisfies Record<string, BackgroundMethod<any[], any>>
 export type BackgroundMethods = typeof backgroundMethods

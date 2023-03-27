@@ -9,7 +9,8 @@
 			"extensions": [
 				"enhancedjs.html-in-template-string",
 				"pushqrdx.inline-html",
-				"esbenp.prettier-vscode"
+				"esbenp.prettier-vscode",
+				"eamodio.gitlens"
 			]
 		}
 	}

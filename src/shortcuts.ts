@@ -29,8 +29,8 @@ function callBackgroundMethod<K extends keyof BackgroundMethods>(method: K, ...d
 	})
 }
 
-chrome.runtime.onMessage.addListener((message: string) => {
-	if (!message) return
+chrome.runtime.onMessage.addListener((message: unknown) => {
+	if (typeof message !== "string") return
 	const [head, _] = message.split(":")
 	switch (head) {
 		case "update-shortcuts":

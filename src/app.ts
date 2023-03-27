@@ -5,6 +5,7 @@ import { $ } from "master-ts/library/signal/$"
 import { removeShortcut, restoreDefaults, setShortcut, shortcuts } from "./shortcuts"
 import appCss from "@/styles/app.css"
 import { SvgIcon } from "./svgs/icon"
+import { randomId } from "master-ts/library/utils/id"
 
 const keysPressed = $.readable("", (set) => {
 	const keys: string[] = []
@@ -209,13 +210,91 @@ if (document.body.hasAttribute("-extension-popup")) {
 	document.querySelector("#app")!.replaceWith(App())
 } else {
 	const shortcutsIndexedByKeys = $.derive(() => Object.fromEntries(Object.entries(shortcuts.ref).map(([_, shortcut]) => [shortcut.keys, shortcut])))
+	const currentShortcut = $.derive(() => shortcutsIndexedByKeys.ref[keysPressed.ref] ?? null)
+	const lastShortcut = $.writable(currentShortcut.ref)
 
-	keysPressed.subscribe((keys) => {
-		const currentShortcut = shortcutsIndexedByKeys.ref[keys]
-		if (!currentShortcut) return
-		const element = document.querySelector<HTMLElement>(currentShortcut.clickQuerySelector)
+	currentShortcut.subscribe((shorcut) => {
+		if (!shorcut) return
+		lastShortcut.ref = null
+		setTimeout(() => (lastShortcut.ref = shorcut))
+		const element = document.querySelector<HTMLElement>(shorcut.clickQuerySelector)
 		if (!element) return
 		element.focus()
 		element.click()
 	})
+
+	const id = `x-${randomId()}`
+
+	const nodes = html`
+		<div class="overlay ${id}">
+			${() =>
+				lastShortcut.ref &&
+				html`<div class="shortcut">
+					<div class="label">${lastShortcut.ref.label}</div>
+					<div class="keys">${lastShortcut.ref.keys}</div>
+				</div>`}
+		</div>
+	`
+
+	const styleSheet = css`
+		.${id}.overlay {
+			position: fixed;
+			inset: 0;
+			pointer-events: none;
+			user-select: none;
+			z-index: 100000000;
+		}
+
+		.${id}.overlay {
+			display: grid;
+			place-content: center;
+		}
+
+		.${id} .shortcut {
+			display: grid;
+			place-items: center;
+			gap: 0.5rem;
+			padding: 1rem 2rem;
+			color: #fff;
+			font-size: 3rem;
+			background: hsl(0deg 0% 10% / 85%);
+			border-radius: 2rem;
+		}
+
+		.${id} .shortcut .keys {
+			font-size: 0.5em;
+			opacity: 0.5em;
+		}
+
+		.${id} .shortcut {
+			animation-name: ${id}-show;
+			animation-duration: 2s;
+			animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+			animation-direction: alternate;
+			animation-fill-mode: forwards;
+		}
+
+		@keyframes ${id}-show {
+			0% {
+				filter: opacity(0);
+				transform: scale(0.25);
+			}
+			50% {
+				filter: opacity(1);
+				transform: scale(1);
+			}
+			100% {
+				filter: opacity(0);
+				transform: scale(1);
+			}
+		}
+	`
+	const styleText = new Array(styleSheet.cssRules.length)
+		.fill(null)
+		.map((_, index) => styleSheet.cssRules.item(index)!)
+		.map((rule) => rule.cssText)
+		.join("\n")
+	const style = document.createElement("style")
+	style.textContent = styleText
+	document.body.append(style, ...nodes)
 }
