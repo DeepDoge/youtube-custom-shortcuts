@@ -53,9 +53,8 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 
 export type BackgroundMethod<Params extends any[], Returns> = (...params: Params) => Promise<Returns>
 
-async function sendMessage(message: string) {
-	await chrome.runtime.sendMessage(message)
-	await chrome.tabs.query({ url: "https://www.youtube.com/*" }, (tabs) => tabs.forEach((tab) => chrome.tabs.sendMessage(tab.id!, message)))
+async function emitGlobalEvent(eventName: string) {
+	await chrome.storage.session.set({ [eventName]: Date.now() })
 }
 
 const backgroundMethods = {
@@ -65,15 +64,15 @@ const backgroundMethods = {
 	},
 	async restoreDefaults() {
 		await Promise.all(Object.entries(DEFAULT_SHORTCUTS).map(([id, shortcut]) => shortcutsStorage.set(id, shortcut)))
-		sendMessage("update-shortcuts:")
+		await emitGlobalEvent("update-shortcuts")
 	},
 	async setShortcut(id: string, shortcut: Shortcut) {
 		await shortcutsStorage.set(id, shortcut)
-		sendMessage("update-shortcuts:")
+		await emitGlobalEvent("update-shortcuts")
 	},
 	async removeShortcut(id: string) {
 		await shortcutsStorage.remove(id)
-		sendMessage("update-shortcuts:")
+		await emitGlobalEvent("update-shortcuts")
 	},
 } satisfies Record<string, BackgroundMethod<any[], any>>
 export type BackgroundMethods = typeof backgroundMethods

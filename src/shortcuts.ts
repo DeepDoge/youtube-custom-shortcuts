@@ -29,12 +29,13 @@ function callBackgroundMethod<K extends keyof BackgroundMethods>(method: K, ...d
 	})
 }
 
-chrome.runtime.onMessage.addListener((message: unknown) => {
-	if (typeof message !== "string") return
-	const [head, _] = message.split(":")
-	switch (head) {
-		case "update-shortcuts":
-			callBackgroundMethod("getShortcuts").then(shortcuts.set)
-			break
+chrome.storage.session.onChanged.addListener((changes) => {
+	const eventNames = Object.keys(changes)
+	for (let eventName of eventNames) {
+		switch (eventName) {
+			case "update-shortcuts":
+				callBackgroundMethod("getShortcuts").then(shortcuts.set)
+				break
+		}
 	}
 })
