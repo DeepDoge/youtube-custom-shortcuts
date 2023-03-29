@@ -105,7 +105,7 @@ if (document.body.hasAttribute("-extension-popup")) {
 			<div class="shortcuts">
 				${$.each(shortcutsArr)
 					.key((item) => item.id)
-					.$(
+					.as(
 						(item) => html`<div class="shortcut" class:active=${() => editingKeysOf.ref === item.ref.id}>
 							<div class="edit-label">
 								${() =>
