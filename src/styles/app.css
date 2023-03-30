@@ -73,14 +73,15 @@ input {
 }
 
 @media (prefers-color-scheme: light) {
-	:root {
+	:root,
+	:host {
 		color: #213547;
-		background-color: #ffffff;
+		background-color: hsl(0, 0%, 95%);
 	}
 	a:hover {
 		color: #747bff;
 	}
 	.btn {
-		background-color: #f9f9f9;
+		background-color: hsl(210, 8%, 85%);
 	}
 }

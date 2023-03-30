@@ -119,7 +119,9 @@ if (document.body.hasAttribute("-extension-popup")) {
 										  </label>`}
 							</div>
 							<div class="actions">
-								<button class="btn edit" on:click=${() => editKeysOf(item.ref.id)}>${() => item.ref.shortcut.keys}</button>
+								<button class="btn edit" title="Change shortcut key" on:click=${() => editKeysOf(item.ref.id)}>
+									${() => item.ref.shortcut.keys}
+								</button>
 								<button class="btn remove" on:click=${() => removeShortcut(item.ref.id)}>Remove</button>
 							</div>
 							<div class="edit-selector">
@@ -185,12 +187,12 @@ if (document.body.hasAttribute("-extension-popup")) {
 
 		.actions {
 			display: grid;
-			gap: 0.1rem;
+			gap: 0.25rem;
 			grid-template-columns: 1fr auto;
 		}
 
 		.shortcut.active button.edit {
-			outline: solid #e7a12e 1px;
+			outline: solid hsl(37, 79%, 50%) 0.15rem;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
