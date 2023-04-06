@@ -1,4 +1,4 @@
-import { $ } from "master-ts/library/signal/$"
+import { $ } from "master-ts/library/$"
 import type { BackgroundCallData, BackgroundMethods, Shortcut } from "../scripts/background"
 
 export const shortcuts = $.writable<Record<string, Shortcut>>({})
