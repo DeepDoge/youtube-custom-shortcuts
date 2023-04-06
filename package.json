@@ -1,7 +1,6 @@
 {
-	"name": "master-ts-vite-demo",
-	"version": "1.0.0",
 	"type": "module",
+	"name": "master-ts-vite-demo",
 	"scripts": {
 		"dev": "vite --port 3000",
 		"compile-background": "tsc ./scripts/background.ts --outFile ./dist/background.js --module amd",
