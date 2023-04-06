@@ -1,9 +1,8 @@
 {
 	"compilerOptions": {
 		"target": "ESNext",
-		"useDefineForClassFields": true,
 		"module": "ESNext",
-		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"lib": ["ESNext", "DOM"],
 		"moduleResolution": "Node",
 		"resolveJsonModule": true,
 		"isolatedModules": true,
@@ -35,8 +34,10 @@
 		"useUnknownInCatchVariables": true,
 		"noUncheckedIndexedAccess": true,
 		/* OTHER */
+		"preserveConstEnums": true,
 		"importsNotUsedAsValues": "error",
 		"forceConsistentCasingInFileNames": true,
+		"useDefineForClassFields": true,
 		/* ALLOW */
 		"noFallthroughCasesInSwitch": false,
 		"noPropertyAccessFromIndexSignature": false
