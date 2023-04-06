@@ -109,7 +109,7 @@ if (document.body.hasAttribute("-extension-popup")) {
 							<div class="edit-label">
 								${() =>
 									editingLabelOf.ref === item.ref.id
-										? html` <form on:submit=${(event: SubmitEvent, _ = event.preventDefault()) => saveLabel()}>
+										? html` <form on:submit=${(event) => (event.preventDefault(), saveLabel())}>
 												<input type="text" bind:value=${currentLabel} />
 												<button class="btn">Save Label</button>
 										  </form>`
@@ -126,7 +126,7 @@ if (document.body.hasAttribute("-extension-popup")) {
 							<div class="edit-selector">
 								${() =>
 									editingSelectorOf.ref === item.ref.id
-										? html` <form on:submit=${(event: SubmitEvent, _ = event.preventDefault()) => saveSelector()}>
+										? html` <form on:submit=${(event) => (event.preventDefault(), saveSelector())}>
 												<textarea bind:value=${currentSelector}></textarea>
 												<button class="btn">Save Selector</button>
 										  </form>`
