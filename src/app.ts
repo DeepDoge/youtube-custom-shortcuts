@@ -222,7 +222,19 @@ if (document.body.hasAttribute("-extension-popup")) {
 		setTimeout(() => (lastShortcut.ref = shorcut))
 		const element = document.querySelector<HTMLElement>(shorcut.clickQuerySelector)
 		if (!element) return
-		element.focus()
+
+		if (element instanceof HTMLInputElement) {
+			switch (element.type) {
+				case "button":
+				case "submit":
+				case "reset":
+					break
+				default:
+					element.focus()
+					break
+			}
+		} else if (element.tabIndex >= 0) element.focus()
+
 		element.click()
 	})
 
