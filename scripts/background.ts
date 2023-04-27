@@ -9,7 +9,7 @@ export type Shortcuts = Record<string, Shortcut>
 const DEFAULT_SHORTCUTS: Shortcuts = {
 	like: {
 		label: "Like",
-		keys: "Alt+Enter",
+		keys: "ALT+ENTER",
 		clickQuerySelector: `
       ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button a:not([aria-pressed="true"]), /* Shorts Classic */
       ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button button:not([aria-pressed="true"]), /* Shorts New Layout */
@@ -20,7 +20,7 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 	},
 	dislike: {
 		label: "Dislike",
-		keys: "Alt+Backspace",
+		keys: "ALT+BACKSPACE",
 		clickQuerySelector: `
       ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button a:not([aria-pressed="true"]), /* Shorts */
       ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button button:not([aria-pressed="true"]), /* Shorts New Layout */
@@ -31,7 +31,7 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 	},
 	neutral: {
 		label: "Neutral",
-		keys: `Alt+0`,
+		keys: `ALT+0`,
 		clickQuerySelector: `
       ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button a[aria-pressed="true"], /* Shorts Like Classic */
       ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button a[aria-pressed="true"], /* Shorts Dislike Classic */
@@ -45,7 +45,7 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 	},
 	search: {
 		label: "Search",
-		keys: "Alt+s",
+		keys: "ALT+S",
 		clickQuerySelector: "#search-form input#search",
 		sortIndex: 0.04,
 	},
@@ -60,7 +60,11 @@ async function emitGlobalEvent(eventName: string) {
 const backgroundMethods = {
 	async getShortcuts() {
 		if (!(await shortcutsStorage.count())) await backgroundMethods.restoreDefaults()
-		return (await shortcutsStorage.getAll()) as Record<string, Shortcut>
+		return Object.fromEntries(
+			Object.entries((await shortcutsStorage.getAll()) as Record<string, Shortcut>).map(
+				([key, shortcut]) => ((shortcut.keys = shortcut.keys.toUpperCase()), [key, shortcut])
+			)
+		)
 	},
 	async restoreDefaults() {
 		await Promise.all(Object.entries(DEFAULT_SHORTCUTS).map(([id, shortcut]) => shortcutsStorage.set(id, shortcut)))

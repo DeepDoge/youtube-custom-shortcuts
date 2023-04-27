@@ -1,8 +1,8 @@
 import { defineConfig } from "vite"
-import { masterTsPreprocessor } from "master-ts/library/preprocessor"
+import { masterTsPlugin } from "master-ts-vite-plugin/plugin"
 
 export default defineConfig({
-	plugins: [masterTsPreprocessor()],
+	plugins: [masterTsPlugin],
 	build: {
 		target: "esnext",
 		rollupOptions: {

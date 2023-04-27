@@ -2,15 +2,14 @@
 	"type": "module",
 	"name": "master-ts-vite-demo",
 	"scripts": {
-		"dev": "vite --port 3000",
 		"compile-background": "tsc ./scripts/background.ts --outFile ./dist/background.js --module amd",
 		"fix-background": "tsx ./fix-background.ts",
-		"build": "vite build ; npm run compile-background ; npm run fix-background",
-		"preview": "vite preview --port 3000"
+		"build": "vite build ; npm run compile-background ; npm run fix-background"
 	},
 	"devDependencies": {
 		"@types/chrome": "^0.0.225",
 		"master-ts": "github:DeepDoge/master-ts",
+		"master-ts-vite-plugin": "github:DeepDoge/master-ts-vite-plugin",
 		"tsx": "^3.12.6",
 		"typescript": "^4.6.4",
 		"vite": "^3.2.3"
