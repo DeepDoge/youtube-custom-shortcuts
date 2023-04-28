@@ -6,11 +6,16 @@ export default defineConfig({
 	build: {
 		target: "esnext",
 		rollupOptions: {
+			input: {
+				app: "./src/content/index.html",
+			},
 			output: {
 				entryFileNames: "[name].js",
+				dir: "./dist/content",
 			},
 		},
 	},
+	base: "/content/",
 	resolve: {
 		alias: {
 			"@": "/src",

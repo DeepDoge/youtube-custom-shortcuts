@@ -1,5 +1,27 @@
 import { $ } from "master-ts/library/$"
-import type { BackgroundCallData, BackgroundMethods, Shortcut } from "./background"
+import type { BackgroundCallData, BackgroundMethods, Shortcut } from "@/scripts/background"
+
+export const keysPressed = $.readable<string>((set) => {
+	const keys: string[] = []
+
+	function down(event: KeyboardEvent) {
+		if (event.key === keys[keys.length - 1]) return
+		keys.push(event.key)
+		set(keys.map((key) => key.toUpperCase()).join("+"))
+	}
+	function up(_: KeyboardEvent) {
+		while (keys.pop());
+		set("")
+	}
+
+	addEventListener("keydown", down)
+	addEventListener("keyup", up)
+
+	return () => {
+		removeEventListener("keydown", down)
+		removeEventListener("keyup", up)
+	}
+})
 
 export const shortcuts = $.writable<Record<string, Shortcut>>({})
 callBackgroundMethod("getShortcuts").then(shortcuts.set)

@@ -2,9 +2,9 @@
 	"type": "module",
 	"name": "master-ts-vite-demo",
 	"scripts": {
-		"compile-background": "tsc ./scripts/background.ts --outFile ./dist/background.js --module amd",
+		"compile-background": "tsc ./src/scripts/background.ts --outFile ./dist/background.js --module amd",
 		"fix-background": "tsx ./fix-background.ts",
-		"build": "vite build ; npm run compile-background ; npm run fix-background"
+		"build": "rm -rf ./dist && vite build ./src/popup && vite build ./src/content && npm run compile-background && npm run fix-background && cp -r ./public/* ./dist"
 	},
 	"devDependencies": {
 		"@types/chrome": "^0.0.225",

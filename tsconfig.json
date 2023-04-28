@@ -42,5 +42,5 @@
 		"noFallthroughCasesInSwitch": false,
 		"noPropertyAccessFromIndexSignature": false
 	},
-	"include": ["src"]
+	"include": ["src", "src/common/shortcuts.ts"]
 }
