@@ -1,8 +1,8 @@
-import appCss from "./styles/app.css"
 import { $ } from "master-ts/library/$"
 import { Component, defineComponent } from "master-ts/library/component"
 import { css, html } from "master-ts/library/template"
 import { callBackgroundMethod, keysPressed, shortcuts } from "../common/shortcuts"
+import appCss from "./styles/app.css"
 import { SvgIcon } from "./svgs/icon"
 
 const appStyle = new CSSStyleSheet()

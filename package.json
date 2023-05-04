@@ -2,16 +2,20 @@
 	"type": "module",
 	"name": "master-ts-vite-demo",
 	"scripts": {
+		"format": "prettier -w ./",
+		"postinstall": "npm run format",
 		"compile-background": "tsc ./src/scripts/background.ts --outFile ./dist/background.js --module amd",
 		"fix-background": "tsx ./fix-background.ts",
 		"build": "rm -rf ./dist && vite build ./src/popup && vite build ./src/content && npm run compile-background && npm run fix-background && cp -r ./public/* ./dist"
 	},
 	"devDependencies": {
-		"@types/chrome": "^0.0.225",
+		"@types/chrome": "latest",
 		"master-ts": "github:DeepDoge/master-ts",
 		"master-ts-vite-plugin": "github:DeepDoge/master-ts-vite-plugin",
-		"tsx": "^3.12.6",
-		"typescript": "^4.6.4",
-		"vite": "^3.2.3"
+		"tsx": "latest",
+		"typescript": "latest",
+		"vite": "latest",
+		"prettier": "latest",
+		"prettier-plugin-organize-imports": "latest"
 	}
 }

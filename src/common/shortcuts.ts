@@ -1,5 +1,5 @@
-import { $ } from "master-ts/library/$"
 import type { BackgroundCallData, BackgroundMethods, Shortcut } from "@/scripts/background"
+import { $ } from "master-ts/library/$"
 
 export const keysPressed = $.readable<string>((set) => {
 	const keys: string[] = []
