@@ -9,13 +9,15 @@
 		"build": "rm -rf ./dist && vite build ./src/popup && vite build ./src/content && npm run compile-background && npm run fix-background && cp -r ./public/* ./dist"
 	},
 	"devDependencies": {
+		"prettier": "latest",
+		"prettier-plugin-organize-imports": "latest",
+		"@typescript-eslint/eslint-plugin": "latest",
 		"@types/chrome": "latest",
+		"@types/node": "latest",
 		"master-ts": "github:DeepDoge/master-ts",
 		"master-ts-vite-plugin": "github:DeepDoge/master-ts-vite-plugin",
 		"tsx": "latest",
 		"typescript": "latest",
-		"vite": "latest",
-		"prettier": "latest",
-		"prettier-plugin-organize-imports": "latest"
+		"vite": "latest"
 	}
 }
