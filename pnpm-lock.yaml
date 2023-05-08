@@ -2,34 +2,34 @@ lockfileVersion: "6.0"
 
 devDependencies:
     "@types/chrome":
-        specifier: latest
+        specifier: ^0.0.235
         version: 0.0.235
     "@types/node":
-        specifier: latest
+        specifier: ^20.1.0
         version: 20.1.0
     "@typescript-eslint/eslint-plugin":
-        specifier: latest
+        specifier: ^5.59.2
         version: 5.59.2(@typescript-eslint/parser@5.59.2)(eslint@8.40.0)(typescript@5.0.4)
     master-ts:
-        specifier: github:DeepDoge/master-ts
-        version: github.com/DeepDoge/master-ts/cf205aaff81ff3f0d75463a99e9923e36034fdb2
+        specifier: github:DeepDoge/master-ts#0.0.2
+        version: github.com/DeepDoge/master-ts/b33831a57e1437711240d261791a6574cc3bcde0
     master-ts-vite-plugin:
-        specifier: github:DeepDoge/master-ts-vite-plugin
-        version: github.com/DeepDoge/master-ts-vite-plugin/8b598361e2a8efd1ef6c3d7193c9656ca5668a04
+        specifier: github:DeepDoge/master-ts-vite-plugin#0.0.2
+        version: github.com/DeepDoge/master-ts-vite-plugin/91528a78f7a2c8d3d5081ea0082cc1795ad7b9b7
     prettier:
-        specifier: latest
+        specifier: ^2.8.8
         version: 2.8.8
     prettier-plugin-organize-imports:
-        specifier: latest
+        specifier: ^3.2.2
         version: 3.2.2(prettier@2.8.8)(typescript@5.0.4)
     tsx:
-        specifier: latest
+        specifier: ^3.12.7
         version: 3.12.7
     typescript:
-        specifier: latest
+        specifier: ^5.0.4
         version: 5.0.4
     vite:
-        specifier: latest
+        specifier: ^4.3.5
         version: 4.3.5(@types/node@20.1.0)
 
 packages:
@@ -1375,8 +1375,8 @@ packages:
         engines: { node: ">=10" }
         dev: true
 
-    github.com/DeepDoge/master-ts-vite-plugin/8b598361e2a8efd1ef6c3d7193c9656ca5668a04:
-        resolution: { tarball: https://codeload.github.com/DeepDoge/master-ts-vite-plugin/tar.gz/8b598361e2a8efd1ef6c3d7193c9656ca5668a04 }
+    github.com/DeepDoge/master-ts-vite-plugin/91528a78f7a2c8d3d5081ea0082cc1795ad7b9b7:
+        resolution: { tarball: https://codeload.github.com/DeepDoge/master-ts-vite-plugin/tar.gz/91528a78f7a2c8d3d5081ea0082cc1795ad7b9b7 }
         name: master-ts-vite-plugin
         version: 0.0.0
         dependencies:
@@ -1384,8 +1384,8 @@ packages:
             typescript: 5.0.4
         dev: true
 
-    github.com/DeepDoge/master-ts/cf205aaff81ff3f0d75463a99e9923e36034fdb2:
-        resolution: { tarball: https://codeload.github.com/DeepDoge/master-ts/tar.gz/cf205aaff81ff3f0d75463a99e9923e36034fdb2 }
+    github.com/DeepDoge/master-ts/b33831a57e1437711240d261791a6574cc3bcde0:
+        resolution: { tarball: https://codeload.github.com/DeepDoge/master-ts/tar.gz/b33831a57e1437711240d261791a6574cc3bcde0 }
         name: master-ts
         version: 0.0.0
         dev: true
