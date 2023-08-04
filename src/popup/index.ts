@@ -1,13 +1,10 @@
+import "./import-styles"
+
 import { $ } from "master-ts/library/$"
-import { Component, defineComponent } from "master-ts/library/component"
+import { defineComponent } from "master-ts/library/component"
 import { css, html } from "master-ts/library/template"
 import { callBackgroundMethod, keysPressed, shortcuts } from "../common/shortcuts"
-import appCss from "./styles/app.css?inline"
 import { SvgIcon } from "./svgs/icon"
-
-const appStyle = new CSSStyleSheet()
-appStyle.replaceSync(appCss)
-Component.$globalStyleSheets.push(appStyle)
 
 const AppComponent = defineComponent()
 function App() {
