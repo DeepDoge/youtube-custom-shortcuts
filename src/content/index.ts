@@ -8,14 +8,14 @@ const currentShortcut = $.derive(() => shortcutsIndexedByKeys.ref[keysPressed.re
 const lastShortcut = $.writable(currentShortcut.ref)
 
 currentShortcut.subscribe((shorcut) => {
-  if (!shorcut) return
-  lastShortcut.ref = null
-  setTimeout(() => (lastShortcut.ref = shorcut))
-  const element = document.querySelector<HTMLElement>(shorcut.clickQuerySelector)
-  if (!element) return
+	if (!shorcut) return
+	lastShortcut.ref = null
+	setTimeout(() => (lastShortcut.ref = shorcut))
+	const element = document.querySelector<HTMLElement>(shorcut.clickQuerySelector)
+	if (!element) return
 
-  element.focus()
-  element.click()
+	element.focus()
+	element.click()
 })
 
 const id = `x-${uniqueId()}`
@@ -23,8 +23,8 @@ const id = `x-${uniqueId()}`
 const nodes = html`
 	<div class="overlay ${id}">
 		${() =>
-    lastShortcut.ref &&
-    html`<div class="shortcut">
+			lastShortcut.ref &&
+			html`<div class="shortcut">
 				<div class="label">${lastShortcut.ref.label}</div>
 				<div class="keys">${lastShortcut.ref.keys}</div>
 			</div>`}
@@ -86,10 +86,10 @@ const styleSheet = css`
 	}
 `
 const styleText = new Array(styleSheet.cssRules.length)
-  .fill(null)
-  .map((_, index) => styleSheet.cssRules.item(index)!)
-  .map((rule) => rule.cssText)
-  .join("\n")
+	.fill(null)
+	.map((_, index) => styleSheet.cssRules.item(index)!)
+	.map((rule) => rule.cssText)
+	.join("\n")
 const style = document.createElement("style")
 style.textContent = styleText
 document.body.append(style, ...nodes)
