@@ -11,36 +11,36 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 		label: "Like",
 		keys: "ALT+Z",
 		clickQuerySelector: `
-     			ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button a:not([aria-pressed="true"]), /* Shorts Classic */
-      			ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button button:not([aria-pressed="true"]), /* Shorts New Layout */
-      			ytd-watch-metadata #top-level-buttons-computed #segmented-like-button button:not([aria-pressed="true"]), /* New Layout */
-      			ytd-watch-metadata #top-level-buttons-computed > ytd-toggle-button-renderer:nth-of-type(1n) button:not([aria-pressed="true"]) /* Classic Layout */
-    		`,
+     		ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button a:not([aria-pressed="true"]), /* Shorts Classic */
+      		ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button button:not([aria-pressed="true"]), /* Shorts New Layout */
+      		ytd-watch-metadata #top-level-buttons-computed #segmented-like-button button:not([aria-pressed="true"]), /* New Layout */
+      		ytd-watch-metadata #top-level-buttons-computed > ytd-toggle-button-renderer:nth-of-type(1n) button:not([aria-pressed="true"]) /* Classic Layout */
+    	`,
 		sortIndex: 0.01,
 	},
 	dislike: {
 		label: "Dislike",
 		keys: "ALT+C",
 		clickQuerySelector: `
-      			ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button a:not([aria-pressed="true"]), /* Shorts */
-      			ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button button:not([aria-pressed="true"]), /* Shorts New Layout */
-      			ytd-watch-metadata #top-level-buttons-computed #segmented-dislike-button button:not([aria-pressed="true"]), /* New Layout */
-      			ytd-watch-metadata #top-level-buttons-computed > ytd-toggle-button-renderer:nth-of-type(2n) button:not([aria-pressed="true"]) /* Classic Layout */
-    		`,
+      		ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button a:not([aria-pressed="true"]), /* Shorts */
+      		ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button button:not([aria-pressed="true"]), /* Shorts New Layout */
+      		ytd-watch-metadata #top-level-buttons-computed #segmented-dislike-button button:not([aria-pressed="true"]), /* New Layout */
+      		ytd-watch-metadata #top-level-buttons-computed > ytd-toggle-button-renderer:nth-of-type(2n) button:not([aria-pressed="true"]) /* Classic Layout */
+    	`,
 		sortIndex: 0.02,
 	},
 	neutral: {
 		label: "Neutral",
 		keys: `ALT+X`,
 		clickQuerySelector: `
-      			ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button a[aria-pressed="true"], /* Shorts Like Classic */
-      			ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button a[aria-pressed="true"], /* Shorts Dislike Classic */
-      			ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button button[aria-pressed="true"], /* Shorts Like New Layout */
-      			ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button button[aria-pressed="true"], /* Shorts Dislike New Layout */
-      			ytd-watch-metadata #top-level-buttons-computed ytd-segmented-like-dislike-button-renderer button[aria-pressed="true"], /* New Layout Like/Dislike */
-      			ytd-watch-metadata #top-level-buttons-computed > ytd-toggle-button-renderer:nth-of-type(1n) button[aria-pressed="true"], /* Classic Layout Like */
-      			ytd-watch-metadata #top-level-buttons-computed > ytd-toggle-button-renderer:nth-of-type(2n) button[aria-pressed="true"] /* Classic Layout Dislike */
-    		`,
+      		ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button a[aria-pressed="true"], /* Shorts Like Classic */
+      		ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button a[aria-pressed="true"], /* Shorts Dislike Classic */
+      		ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#like-button button[aria-pressed="true"], /* Shorts Like New Layout */
+      		ytd-reel-player-overlay-renderer ytd-toggle-button-renderer#dislike-button button[aria-pressed="true"], /* Shorts Dislike New Layout */
+      		ytd-watch-metadata #top-level-buttons-computed ytd-segmented-like-dislike-button-renderer button[aria-pressed="true"], /* New Layout Like/Dislike */
+      		ytd-watch-metadata #top-level-buttons-computed > ytd-toggle-button-renderer:nth-of-type(1n) button[aria-pressed="true"], /* Classic Layout Like */
+      		ytd-watch-metadata #top-level-buttons-computed > ytd-toggle-button-renderer:nth-of-type(2n) button[aria-pressed="true"] /* Classic Layout Dislike */
+    	`,
 		sortIndex: 0.03,
 	},
 	subscribe: {
@@ -69,6 +69,7 @@ const backgroundMethods = {
 		)
 	},
 	async restoreDefaults() {
+		console.log(DEFAULT_SHORTCUTS)
 		await Promise.all(Object.entries(DEFAULT_SHORTCUTS).map(([id, shortcut]) => shortcutsStorage.set(id, shortcut)))
 		await emitGlobalEvent("update-shortcuts")
 	},
@@ -91,6 +92,7 @@ export type BackgroundCallData = {
 chrome.runtime.onMessage.addListener((json: string, _, sendResponse) => {
 	try {
 		const { method, data } = JSON.parse(json) as BackgroundCallData
+		console.log("method:", method, data)
 		const call = backgroundMethods[method] as BackgroundMethod<unknown[], unknown>
 		if (!call) return false
 		call(...data).then((result) => sendResponse(JSON.stringify({ data: result ?? null })))

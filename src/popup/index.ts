@@ -15,8 +15,12 @@ function App() {
 			.map(([id, shortcut]) => ({ id, shortcut }))
 			.sort((a, b) => a.shortcut.sortIndex - b.shortcut.sortIndex)
 	)
-	const editingKeysOf = $.writable<string | null>(null)
 
+	const editingKeysOf = $.writable<string | null>(null)
+	function editKeysOf(id: string) {
+		if (editingKeysOf.ref === id) editingKeysOf.ref = null
+		else editingKeysOf.ref = id
+	}
 	keysPressed.subscribe$(component, async (keys) => {
 		if (!keys) return
 		if (!editingKeysOf.ref) return
@@ -25,11 +29,6 @@ function App() {
 		shortcut.keys = keys
 		await callBackgroundMethod("setShortcut", editingKeysOf.ref, shortcut)
 	})
-
-	function editKeysOf(id: string) {
-		if (editingKeysOf.ref === id) editingKeysOf.ref = null
-		else editingKeysOf.ref = id
-	}
 
 	const editingLabelOf = $.writable<string | null>(null)
 	const currentLabel = $.writable("")
@@ -75,33 +74,32 @@ function App() {
 			<h1>YouTube Custom Shortcuts</h1>
 		</header>
 		<div class="shortcuts">
-			${$.each(shortcutsArr)
-				.key((item) => item.id)
-				.as(
-					(item) => html`<div class="shortcut" class:active=${() => editingKeysOf.ref === item.ref.id}>
+			${() =>
+				$.each(shortcutsArr.ref).as(
+					(item) => html` <div class="shortcut" class:active=${() => editingKeysOf.ref === item.id}>
 						<div class="edit-label">
 							${() =>
-								editingLabelOf.ref === item.ref.id
+								editingLabelOf.ref === item.id
 									? html` <form on:submit=${(event) => (event.preventDefault(), saveLabel())}>
 											<input type="text" bind:value=${currentLabel} />
 											<button class="btn">Save Label</button>
 									  </form>`
-									: html`<label> ${() => item.ref.shortcut.label} <a on:click=${() => editLabelOf(item.ref.id)}>Edit</a> </label>`}
+									: html`<label> ${() => item.shortcut.label} <a on:click=${() => editLabelOf(item.id)}>Edit</a> </label>`}
 						</div>
 						<div class="actions">
-							<button class="btn edit" title="Change shortcut key" on:click=${() => editKeysOf(item.ref.id)}>
-								${() => item.ref.shortcut.keys}
+							<button class="btn edit" title="Change shortcut key" on:click=${() => editKeysOf(item.id)}>
+								${() => item.shortcut.keys}
 							</button>
-							<button class="btn remove" on:click=${() => callBackgroundMethod("removeShortcut", item.ref.id)}>Remove</button>
+							<button class="btn remove" on:click=${() => callBackgroundMethod("removeShortcut", item.id)}>Remove</button>
 						</div>
 						<div class="edit-selector">
 							${() =>
-								editingSelectorOf.ref === item.ref.id
+								editingSelectorOf.ref === item.id
 									? html` <form on:submit=${(event) => (event.preventDefault(), saveSelector())}>
 											<textarea bind:value=${currentSelector}></textarea>
 											<button class="btn">Save Selector</button>
 									  </form>`
-									: html`<a on:click=${() => editSelectorOf(item.ref.id)}>Edit Selector</a>`}
+									: html`<a on:click=${() => editSelectorOf(item.id)}>Edit Selector</a>`}
 						</div>
 					</div>`
 				)}
