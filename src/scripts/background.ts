@@ -49,8 +49,8 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 		clickQuerySelector: `
 			#subscribe-button ytd-subscribe-button-renderer:not([subscribed])
   		`,
-		sortIndex: 0.04
-	}
+		sortIndex: 0.04,
+	},
 }
 
 export type BackgroundMethod<Params extends any[], Returns> = (...params: Params) => Promise<Returns>

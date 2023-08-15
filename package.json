@@ -5,7 +5,7 @@
 		"format": "prettier -w ./",
 		"postinstall": "npm run format",
 		"compile-background": "tsc ./src/scripts/background.ts --outFile ./dist/background.js --module amd",
-		"fix-background": "tsx ./fix-background.ts",
+		"fix-background": "./fix-background.ts",
 		"build": "rm -rf ./dist && vite build ./src/popup && vite build ./src/content && npm run compile-background && npm run fix-background && cp -r ./public/* ./dist"
 	},
 	"devDependencies": {
@@ -16,7 +16,6 @@
 		"master-ts-vite-plugin": "github:DeepDoge/master-ts-vite-plugin#0.0.13",
 		"prettier": "^2.8.8",
 		"prettier-plugin-organize-imports": "^3.2.2",
-		"tsx": "^3.12.7",
 		"typescript": "^5.0.4",
 		"vite": "^4.3.5"
 	}
