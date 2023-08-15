@@ -6,9 +6,9 @@ import { css, html } from "master-ts/library/template"
 import { callBackgroundMethod, keysPressed, shortcuts } from "../common/shortcuts"
 import { SvgIcon } from "./svgs/icon"
 
-const AppComponent = defineComponent()
-function App() {
-	const component = new AppComponent()
+const Component = defineComponent()
+function AppComponent() {
+	const component = new Component()
 
 	const shortcutsArr = $.derive(() =>
 		Object.entries(shortcuts.ref)
@@ -74,35 +74,34 @@ function App() {
 			<h1>YouTube Custom Shortcuts</h1>
 		</header>
 		<div class="shortcuts">
-			${() =>
-				$.each(shortcutsArr.ref).as(
-					(item) => html` <div class="shortcut" class:active=${() => editingKeysOf.ref === item.id}>
-						<div class="edit-label">
-							${() =>
-								editingLabelOf.ref === item.id
-									? html` <form on:submit=${(event) => (event.preventDefault(), saveLabel())}>
-											<input type="text" bind:value=${currentLabel} />
-											<button class="btn">Save Label</button>
-									  </form>`
-									: html`<label> ${() => item.shortcut.label} <a on:click=${() => editLabelOf(item.id)}>Edit</a> </label>`}
-						</div>
-						<div class="actions">
-							<button class="btn edit" title="Change shortcut key" on:click=${() => editKeysOf(item.id)}>
-								${() => item.shortcut.keys}
-							</button>
-							<button class="btn remove" on:click=${() => callBackgroundMethod("removeShortcut", item.id)}>Remove</button>
-						</div>
-						<div class="edit-selector">
-							${() =>
-								editingSelectorOf.ref === item.id
-									? html` <form on:submit=${(event) => (event.preventDefault(), saveSelector())}>
-											<textarea bind:value=${currentSelector}></textarea>
-											<button class="btn">Save Selector</button>
-									  </form>`
-									: html`<a on:click=${() => editSelectorOf(item.id)}>Edit Selector</a>`}
-						</div>
-					</div>`
-				)}
+			${$.each(shortcutsArr).as(
+				(item) => html` <div class="shortcut" class:active=${() => editingKeysOf.ref === item.ref.id}>
+					<div class="edit-label">
+						${() =>
+							editingLabelOf.ref === item.ref.id
+								? html` <form on:submit=${(event) => (event.preventDefault(), saveLabel())}>
+										<input type="text" bind:value=${currentLabel} />
+										<button class="btn">Save Label</button>
+								  </form>`
+								: html`<label> ${() => item.ref.shortcut.label} <a on:click=${() => editLabelOf(item.ref.id)}>Edit</a> </label>`}
+					</div>
+					<div class="actions">
+						<button class="btn edit" title="Change shortcut key" on:click=${() => editKeysOf(item.ref.id)}>
+							${() => item.ref.shortcut.keys}
+						</button>
+						<button class="btn remove" on:click=${() => callBackgroundMethod("removeShortcut", item.ref.id)}>Remove</button>
+					</div>
+					<div class="edit-selector">
+						${() =>
+							editingSelectorOf.ref === item.ref.id
+								? html` <form on:submit=${(event) => (event.preventDefault(), saveSelector())}>
+										<textarea bind:value=${currentSelector}></textarea>
+										<button class="btn">Save Selector</button>
+								  </form>`
+								: html`<a on:click=${() => editSelectorOf(item.ref.id)}>Edit Selector</a>`}
+					</div>
+				</div>`
+			)}
 			<div class="actions">
 				<button
 					class="btn"
@@ -123,7 +122,7 @@ function App() {
 	return component
 }
 
-AppComponent.$css = css`
+Component.$css = css`
 	.popup {
 		width: 500px;
 		padding: 2rem;
@@ -179,4 +178,4 @@ AppComponent.$css = css`
 	}
 `
 
-document.querySelector("#app")!.replaceWith(App())
+document.querySelector("#app")!.replaceWith(AppComponent())

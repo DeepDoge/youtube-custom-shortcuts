@@ -1,9 +1,9 @@
-import { Component } from "master-ts/library/component"
+import { ComponentBase } from "master-ts/library/component"
 import appCSS from "./styles/app.css?inline"
 
 const appStyleSheet = new CSSStyleSheet()
 
 await Promise.all([appStyleSheet.replace(appCSS)])
 
-Component.$globalStyleSheets.push(appStyleSheet)
+ComponentBase.$globalStyleSheets.push(appStyleSheet)
 document.adoptedStyleSheets.push(appStyleSheet)
