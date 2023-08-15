@@ -47,7 +47,7 @@ const DEFAULT_SHORTCUTS: Shortcuts = {
 		label: "Subscribe",
 		keys: "ALT+S",
 		clickQuerySelector: `
-			#subscribe-button ytd-subscribe-button-renderer:not([subscribed])
+			#subscribe-button ytd-subscribe-button-renderer:not([subscribed]) button
   		`,
 		sortIndex: 0.04,
 	},
