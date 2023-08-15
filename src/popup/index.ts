@@ -1,4 +1,4 @@
-import "./import-styles"
+import "./importStyles"
 
 import { $ } from "master-ts/library/$"
 import { defineComponent } from "master-ts/library/component"
